@@ -112,6 +112,28 @@ java -cp ".;C:\path\to\mysql-connector-j-8.0.33.jar" ev.charging.system.Splash
 - **Foreign Key Constraints**: Referential integrity across all tables
 - **Overlap Detection**: Temporal collision check before booking insertion
 - **CASCADE DELETE**: Removing a station auto-removes its chargers
-- **ENUM Data Types**: Role-based access (USER/OPERATOR/ADMIN), status fields
-- **AUTO_INCREMENT**: Primary key generation for all tables
 - **INDEX Optimization**: Indexed columns for faster queries
+
+## Role-Based Access Control (RBAC) Specification
+
+| Action / Operation | DBMS SQL Query | USER (Driver) | OPERATOR (Station Mgr) | ADMIN (Super Admin) |
+|---|---|:---:|:---:|:---:|
+| **View Stations & Bays** | `SELECT with JOIN` | ✅ Permitted | ✅ Permitted | ✅ Permitted |
+| **Reserve Slot (Book Slot)** | `INSERT bookings` + Overlap Check | ✅ Permitted | ✅ Permitted | ✅ Permitted |
+| **View My Bookings** | `SELECT bookings WHERE user_id` | ✅ Permitted (Own) | ✅ Permitted (All) | ✅ Permitted (All) |
+| **Add New Station** | `INSERT INTO stations` | ❌ **DENIED (403)** | ✅ Permitted (Assigned) | ✅ Permitted |
+| **Update Charger Status** | `UPDATE chargers` | ❌ **DENIED (403)** | ✅ Permitted | ✅ Permitted |
+| **Decommission Station** | `DELETE stations (CASCADE)` | ❌ **DENIED (403)** | ❌ **DENIED (403)** | ✅ Permitted |
+| **Direct SQL Query Console** | Direct JDBC Statement Execution | ❌ **DENIED (403)** | ❌ **DENIED (403)** | ✅ Permitted |
+
+### RBAC Enforcement in Java & MySQL
+1. **Database Schema Layer (`schema.sql`)**:
+   - `users.role` ENUM (`'USER'`, `'OPERATOR'`, `'ADMIN'`).
+   - `stations.operator_id` references `users.user_id` where user has `OPERATOR` or `ADMIN` role.
+2. **Java Application Layer (`UserSession.java` & `Main_class.java`)**:
+   - Authenticated sessions set user role upon login.
+   - Unauthorized action buttons are locked/disabled (`🔒`).
+   - If an unauthorized user attempts an operation directly, execution is halted with an explicit `403 Forbidden` error dialog.
+3. **Server-Side Validation Layer (`EVWebServer.java`)**:
+   - Verifies user role on every route and POST transaction before executing database operations.
+

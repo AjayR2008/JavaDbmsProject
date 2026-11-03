@@ -17,6 +17,18 @@ public class UpdateCharger extends JFrame implements ActionListener {
     JButton btnUpdate, btnBack;
 
     public UpdateCharger() {
+        // RBAC Authorization Guard
+        if (!UserSession.canUpdateCharger()) {
+            JOptionPane.showMessageDialog(null,
+                "ACCESS DENIED (Role-Based Access Control)!\n\n" +
+                "Current Role: [" + UserSession.currentUserRole + "]\n" +
+                "Regular users cannot modify charger telemetry, power, or tariffs.\n" +
+                "Required Role: ADMIN or OPERATOR.",
+                "Authorization Error - 403 Forbidden", JOptionPane.ERROR_MESSAGE);
+            new Main_class();
+            return;
+        }
+
         getContentPane().setBackground(new Color(224, 242, 254)); // Light Blue theme
         setLayout(null);
 

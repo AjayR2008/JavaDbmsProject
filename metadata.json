@@ -1,0 +1,6 @@
+{
+  "name": "EV Charging Station Availability System (Java & DBMS)",
+  "description": "A pure Java and MySQL DBMS application for EV charging station availability monitoring, slot reservations with temporal collision prevention, and bay telemetry management.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

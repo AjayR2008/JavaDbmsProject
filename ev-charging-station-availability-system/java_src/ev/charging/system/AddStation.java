@@ -14,6 +14,18 @@ public class AddStation extends JFrame implements ActionListener {
     JButton btnAdd, btnBack;
 
     public AddStation() {
+        // RBAC Authorization Guard
+        if (!UserSession.canAddStation()) {
+            JOptionPane.showMessageDialog(null,
+                "ACCESS DENIED (Role-Based Access Control)!\n\n" +
+                "Current Role: [" + UserSession.currentUserRole + "]\n" +
+                "Regular users cannot add charging stations.\n" +
+                "Required Role: ADMIN or OPERATOR.",
+                "Authorization Error - 403 Forbidden", JOptionPane.ERROR_MESSAGE);
+            new Main_class();
+            return;
+        }
+
         getContentPane().setBackground(new Color(163, 255, 188)); // Classic Green background like student report
         setLayout(null);
 

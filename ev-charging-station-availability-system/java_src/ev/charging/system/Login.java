@@ -98,11 +98,15 @@ public class Login extends JFrame implements ActionListener {
                 ResultSet rs = c.statement.executeQuery(query);
 
                 if (rs.next()) {
+                    int userId = rs.getInt("user_id");
                     String role = rs.getString("role");
                     String name = rs.getString("name");
-                    JOptionPane.showMessageDialog(null, "Login Successful! Welcome " + name + " (" + role + ")");
+                    UserSession.setSession(userId, name, email, role);
+                    JOptionPane.showMessageDialog(null, 
+                        "Login Successful!\nWelcome: " + name + " (" + role + ")\n\nRole Privileges:\n" + UserSession.getRoleDescription(role),
+                        "Authentication Success", JOptionPane.INFORMATION_MESSAGE);
                     setVisible(false);
-                    new Main_class(); // Open Main Dashboard
+                    new Main_class(role, name, userId);
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid Email or Password. Please try again.");
                 }

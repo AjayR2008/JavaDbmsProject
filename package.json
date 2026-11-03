@@ -1,0 +1,11 @@
+{
+  "name": "ev-charging-station-availability-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EV Charging Station Availability System built with Java (JDK 17) and MariaDB/MySQL DBMS (JDBC)",
+  "scripts": {
+    "build": "bash ./build.sh",
+    "dev": "bash ./run.sh",
+    "start": "bash ./run.sh"
+  }
+}

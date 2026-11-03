@@ -18,6 +18,17 @@ public class RemoveStation extends JFrame implements ActionListener {
     JButton btnDelete, btnBack;
 
     public RemoveStation() {
+        // RBAC Authorization Guard: ADMIN only
+        if (!UserSession.canRemoveStation()) {
+            JOptionPane.showMessageDialog(null,
+                "ACCESS DENIED (Admin Privilege Required)!\n\n" +
+                "Current Role: [" + UserSession.currentUserRole + "]\n" +
+                "Only accounts with role 'ADMIN' are authorized to decommission stations.",
+                "Authorization Error - 403 Forbidden", JOptionPane.ERROR_MESSAGE);
+            new Main_class();
+            return;
+        }
+
         getContentPane().setBackground(new Color(254, 240, 138)); // Amber/Yellow background like sample report
         setLayout(null);
 

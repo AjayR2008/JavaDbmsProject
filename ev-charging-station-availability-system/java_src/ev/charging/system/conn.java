@@ -31,10 +31,15 @@ public class conn {
             System.out.println("Database Connection Established Successfully.");
         } catch (Exception e) {
             System.err.println("JDBC Connection Error: " + e.getMessage());
-            JOptionPane.showMessageDialog(null, 
-                "Connection Failed!\n\n" + e.getMessage() + 
-                "\n\nCheck:\n1. Is XAMPP MySQL running?\n2. Did you run schema.sql in phpMyAdmin?\n3. Is the root password correct in conn.java?",
-                "JDBC Connection Error", JOptionPane.ERROR_MESSAGE);
+            try {
+                if (!java.awt.GraphicsEnvironment.isHeadless()) {
+                    JOptionPane.showMessageDialog(null, 
+                        "Connection Failed!\n\n" + e.getMessage() + 
+                        "\n\nCheck:\n1. Is XAMPP MySQL running?\n2. Did you run schema.sql in phpMyAdmin?\n3. Is the root password correct in conn.java?",
+                        "JDBC Connection Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Throwable ignored) {
+            }
         }
     }
 }
