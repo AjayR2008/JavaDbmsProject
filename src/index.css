@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+:root {
+  --forest: #062817;
+  --forest-light: #0b3d22;
+  --emerald-brand: #059669;
+  --lime-brand: #a3e635;
+  --mint-brand: #bbf7d0;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .print-page {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    margin: 0 auto !important;
+    padding: 20mm 20mm !important;
+    box-sizing: border-box !important;
+    box-shadow: none !important;
+    border: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    background: white !important;
+    color: #000000 !important;
+  }
+}
+
+.report-a4-page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 22mm 24mm;
+  margin: 0 auto 30px auto;
+  background: white;
+  color: #111827;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+  position: relative;
+  font-family: 'Times New Roman', Times, serif;
+}
